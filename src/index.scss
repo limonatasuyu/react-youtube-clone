@@ -49,14 +49,15 @@ $Roboto : 'family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,3
 // Default height value for header icons
 .header-icon { height: 1.5rem; cursor: pointer;}
 
+.navbar-icon { height: 1.5rem; }
+
 /* |---------------------------| */
 /* |          Header           | */
 /* |---------------------------| */
 
 .Header-wrapper {
-	height: 3.4rem;
+	height: 3.5rem;
 	justify-content: space-between;
-	//background-color: yellow; //For Debugging
 }
 
 .menu-icon, .logo { margin-left: 1.5rem;}
@@ -373,3 +374,48 @@ $Roboto : 'family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,3
 }
 .profile-dd-item:hover { background-color: #ccc } //is gonna change !!!!
 .profile-dd-item:first-child { margin-top: 0.6rem; }
+
+/* |---------------------------| */
+/* |          Navbar           | */
+/* |---------------------------| */
+
+.navbar--container {
+	width: 13.95rem; //add scrollbars width too !!!!!!
+}
+
+.navbar-item {
+	cursor: pointer;
+	align-items: center;
+	gap: 1.5rem;
+	font-family: "Roboto";
+	font-size: 0.9rem;
+	height: 2.5rem;
+	.navbar-icon {margin-left: 1.5rem; margin-bottom: 0.1rem;}
+}
+.navbar-items {border-bottom: 1px solid #ccc; padding-bottom: 0.8rem}
+.navbar-items a:first-child {margin-top: 0.8rem;}
+.navbar-item:hover { background-color: #ccc;}
+.active--navbar-item {font-weight: 500; background-color: #ccc;}
+.navbar-sub-img {height: 1.6rem; margin-left: 1.5rem; border-radius: 50px;}
+
+
+.navbar-title {
+	font-family: "Roboto";
+	color: #606060;
+	margin-left: 1.5rem;
+	font-weight: 500;
+	font-size: 0.9rem;
+}
+.navbar-info {margin-left: 1.5rem; margin-top: 1rem;}
+.navbar-info a {
+	text-decoration: none;
+	color: #606060;
+	font-family: "Roboto";
+	font-size: .8rem;
+	font-weight: 500;
+	line-height: 1.1rem;
+}
+
+.navbar-info div div {display: flex; gap: .5rem}
+
+//style={{fontFamily: "Roboto", color: "#606060", marginLeft: "1.5rem",  fontWeight: "500"}}
