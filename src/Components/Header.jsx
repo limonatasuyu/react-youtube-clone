@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useState, useRef} from 'react'
 import {useOutsideClick} from '../CustomHooks'
 
+
 function CreateDropDown() {
 	return(
 		<div className=" create-drop-down drop-down grid">
@@ -209,7 +210,7 @@ function ProfileDropDown() {
 }
 
 // Add Search by voice
-export default function Header() {
+export default function Header(props) {
 
 	const [isSearchEmpty, setisSearchEmpty] = useState(true)
 	const [searchValue, setSearchValue] = useState("")
@@ -245,10 +246,11 @@ export default function Header() {
 	const profileDropDownRef = useRef(null)
 	useOutsideClick(profileDropDownRef, () => setIsProfileDropDownOpen(false))
 
+
 	return(
 		<div className={isSearchOpen ? "Header-wrapper flex search-open--small-screen" : "Header-wrapper flex"}>
 			<div className="first-header-container flex">
-				<Icon.Menu className="header-icon menu-icon"/>
+				<Icon.Menu className="header-icon menu-icon" onClick={props.handleMenu}/>
 				<Link to="/"><Icon.Logo className="header-icon logo" /></Link>
 			</div>
 			<div className="second-header-container flex">

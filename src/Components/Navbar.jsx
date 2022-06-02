@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import {useState} from 'react'
 
 //<Icon.HomeActive className="navbar-icon"/>
-function NavbarItem(props) {
+export function NavbarItem(props) {
 
 	return(
 		<Link className={props.isActive ? "navbar-item active--navbar-item flex" : "navbar-item flex"} to={props.to} style={{textDecoration: "none", color: "black"}}>
@@ -13,28 +13,34 @@ function NavbarItem(props) {
 	)
 }
 
-function NavbarItemSub() {
+export function NavbarItemSub() {
 	return(
-		<div className="navbar-item flex">
+		<Link className="navbar-item flex" to="/idk" style={{textDecoration: "none", color: "black"}}>
 			<img className="navbar-sub-img" src={Icon.Avatar} />
 			<p>Some Channel</p>
-		</div>
+		</Link>
 	)
 }
 
-export default function Navbar() {
+export function Navbar(props) {
 
 	const [isShowinMore, setIsShowinMore] = useState(false)
 	const [isShowinMoreSubs, setIsShowinMoreSubs] = useState(false)
 
-
+	var isScreenSmall = props.isScreenSmall
+	var containerClasses;
+	
+  if (props.isMenuViewChanged) {containerClasses = "navbar--container navbar-small"}
+	else {containerClasses = "navbar--container--set-screen"}
+	
 	return(
-		<div className="navbar--container">
-			<div className="navbar-items">
+		<div className={containerClasses}>
+			<div className="navbar-items navbar-items-primary">
 				<NavbarItem icon={<Icon.HomeActive className="navbar-icon"/>} text="Home" to="/" isActive={true}/>
 				<NavbarItem icon={<Icon.Explore className="navbar-icon"/>} text="Explore" to="/explore" isActive={false}/>
 				<NavbarItem icon={<Icon.Shorts className="navbar-icon"/>} text="Shorts" to="/shorts" isActive={false}/>
 				<NavbarItem icon={<Icon.Subs className="navbar-icon"/>} text="Subscriptions" to="/subscriptions" isActive={false}/>
+				<NavbarItem icon={<Icon.Library className="navbar-icon"/>} text="Library" to="/library" isActive={false}/>
 			</div>
 			<div className="navbar-items">
 				<NavbarItem icon={<Icon.Library className="navbar-icon"/>} text="Library" to="/library" isActive={false}/>
