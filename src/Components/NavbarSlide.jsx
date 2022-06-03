@@ -15,7 +15,7 @@ export function NavbarSlide(props) {
 		<div className="slide-navbar--container">
 			<div className="logo-n-menu--navbar">
 					<Menu className="header-icon menu-icon" onClick={props.handleMenu}/>
-					<Link to="/aa"><Logo className="header-icon logo" /></Link>
+					<Link to="/"><Logo className="header-icon logo" /></Link>
 				</div>
 			<div className="navbar--container">
 				<div className="navbar-items navbar-items-primary">

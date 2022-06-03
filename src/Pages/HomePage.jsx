@@ -3,7 +3,7 @@ import {Navbar} from '../Components/Navbar'
 import {NavbarSlide} from '../Components/NavbarSlide'
 import {useState, useEffect} from 'react'
 import {motion, useAnimation} from 'framer-motion'
-
+import {TagsHome} from '../Components/Tags'
 
 export default function HomePage() {
 
@@ -37,19 +37,23 @@ export default function HomePage() {
 					isMenuViewChanged={isMenuViewChanged}
 					handleMenu={handleMenu}
 				/>
-			<motion.div
-				initial={'unVisible'}
-				animate={control}
-				variants={vars}
-				drag="x"
-				dragMomentum={false}
-				dragConstraints={{right: -73}}
-				dragElastic={0}
-				onDragEnd={(e, i)=> {if (i.point.x > 80) {control.start("visible")} else {control.start("unVisible"); setMenuView(!isMenuViewChanged)}}}
-				>
+				<motion.div
+					style={{zIndex: "3"}}
+					initial={'unVisible'}
+					animate={control}
+					variants={vars}
+					drag="x"
+					dragMomentum={false}
+					dragConstraints={{right: -73}}
+					dragElastic={0}
+					onDragEnd={(e, i)=> {if (i.point.x > 80) {control.start("visible")} else {control.start("unVisible"); setMenuView(!isMenuViewChanged)}}}
+					>
 				<NavbarSlide handleMenu={handleMenu} />
-			</motion.div>
-				<div className="Content" />
+				</motion.div>
+				<div>
+					<TagsHome />
+					<div className="Content" />
+				</div>
 			</div>
 		</div>
 	)
