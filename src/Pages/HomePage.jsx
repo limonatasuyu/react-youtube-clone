@@ -51,7 +51,7 @@ export default function HomePage() {
 				<NavbarSlide handleMenu={handleMenu} />
 				</motion.div>
 				<div>
-					<TagsHome />
+					<TagsHome isMenuViewChanged={isMenuViewChanged}/>
 					<div className="Content" />
 				</div>
 			</div>
