@@ -4,6 +4,7 @@ import {NavbarSlide} from '../Components/NavbarSlide'
 import {useState, useEffect} from 'react'
 import {motion, useAnimation} from 'framer-motion'
 import {TagsHome} from '../Components/Tags'
+import {VideosHome} from '../Components/Videos'
 
 export default function HomePage() {
 
@@ -50,9 +51,9 @@ export default function HomePage() {
 					>
 				<NavbarSlide handleMenu={handleMenu} />
 				</motion.div>
-				<div>
-					<TagsHome isMenuViewChanged={isMenuViewChanged}/>
-					<div className="Content" />
+				<div className={isMenuViewChanged ? "home-page-content home-page-content-big" : "home-page-content"}>
+					<TagsHome />
+					<VideosHome isMenuViewChanged={isMenuViewChanged}/>
 				</div>
 			</div>
 		</div>

@@ -40,7 +40,7 @@ export function TagsHome(props) {
 	if (tagsDirection === "toLeft" && isRightObserverVis) {controlTags.stop()}
 
 	return(
-		<div  className={props.isMenuViewChanged ? "home-tags--container home-tags--container-big" : "home-tags--container"} style={{overflow: "hidden"}}>
+		<div  className="home-tags--container" style={{overflow: "hidden"}}>
 			<div className="home-tags--wrapper flex">
 				<div className={isLeftObserverVis ? "display-none" : "tags-nav--wrapper tags-nav--wrapper-left flex"} style={{zIndex: 2}}>
 					<div className="tag-nav-icon--wrapper flex">

@@ -31,7 +31,7 @@ export function Navbar(props) {
 	var containerClasses;
 	
   if (props.isMenuViewChanged) {containerClasses = "navbar--container navbar-small"}
-	else {containerClasses = "navbar--container--set-screen"}
+	else {containerClasses = "navbar--container navbar--container--set-screen"}
 	
 	return(
 		<div className={containerClasses}>
