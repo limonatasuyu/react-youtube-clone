@@ -5,6 +5,10 @@ import {useState, useEffect} from 'react'
 import {motion, useAnimation} from 'framer-motion'
 import {TagsHome} from '../Components/Tags'
 import {VideosHome} from '../Components/Videos'
+import axios from 'axios'
+import jsonData from '../data.json'
+
+const api_key = 'api_key'
 
 export default function HomePage() {
 
@@ -30,6 +34,44 @@ export default function HomePage() {
 	}
 	if (windowWidth > 1330) {control.start("unVisible")}
 
+
+	const [videoData, setData] = useState([])
+	const [channelData, setChannelData] = useState([])
+	
+	useEffect(() => {
+		
+		let arr = []
+		function getVideoData(videoCount) {
+			let arrClosure;	
+			let idArray = []
+			for (let i=0; i < videoCount; i++) {idArray.push(jsonData[Math.floor(Math.random() * (jsonData.length + 1))])}
+			axios.get(`https://www.googleapis.com/youtube/v3/videos?part=snippet, statistics, contentDetails&id=${idArray}&key=${api_key}`)
+				.then((res) => {
+				if (idArray.length - res.data.items.length !== 0) {getVideoData(idArray.length - res.data.items.length)}
+				arrClosure = arr.concat(res.data.items)
+				arr = arrClosure
+				setData(arrClosure)
+			})
+				.catch((err) => {console.log(err)})
+					.then(() => {console.log("request made")})
+		}
+		
+		getVideoData(16)
+
+	}, [])
+	
+	useEffect(() => {
+		if (videoData.length !== 16) {return}
+		
+		var channelIdArray = videoData.map((item) => {return item.snippet.channelId})
+		axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${channelIdArray}&key=${api_key}`)
+			.then((res) => { setChannelData(res.data.items) })
+			.catch((err) => console.log(err))
+				.then(() => console.log('channel request made'))
+		
+	}, [videoData])
+
+
 	return(
 		<div className="homepage-container" >
 			<Header handleMenu={handleMenu}/>
@@ -53,7 +95,7 @@ export default function HomePage() {
 				</motion.div>
 				<div className={isMenuViewChanged ? "home-page-content home-page-content-big" : "home-page-content"}>
 					<TagsHome />
-					<VideosHome isMenuViewChanged={isMenuViewChanged}/>
+					<VideosHome isMenuViewChanged={isMenuViewChanged} videoData={videoData} channelData={channelData}/>
 				</div>
 			</div>
 		</div>
