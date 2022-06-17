@@ -5,26 +5,22 @@ import {useState, useEffect} from 'react'
 import {motion, useAnimation} from 'framer-motion'
 import {TagsHome} from '../Components/Tags'
 import {VideosHome} from '../Components/Videos'
-import axios from 'axios'
-import jsonData from '../data.json'
-
-const api_key = 'api_key'
 
 export default function HomePage() {
 
-	const [isMenuViewChanged, setMenuView] = useState(false) 
+	const [isMenuViewChanged, setMenuView] = useState(false)
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 	useEffect(() => {
 		window.addEventListener('resize', () => {setWindowWidth(window.innerWidth)})
 	}, [])
-	
+
 	const control = useAnimation()
-	
+
 	var vars = {
 		visible: {x: -73, transition: {duration: .25}},
 		unVisible: {x: -311	, transition: {duration: .25}},
 	}
-	
+
 	const handleMenu = () => {
 		setMenuView(!isMenuViewChanged)
 		if (windowWidth > 1330) {return}
@@ -33,47 +29,24 @@ export default function HomePage() {
 
 	}
 	if (windowWidth > 1330) {control.start("unVisible")}
-
-
-	const [videoData, setData] = useState([])
-	const [channelData, setChannelData] = useState([])
+	//console.log(window)
 	
-	useEffect(() => {
-		
-		let arr = []
-		function getVideoData(videoCount) {
-			let arrClosure;	
-			let idArray = []
-			for (let i=0; i < videoCount; i++) {idArray.push(jsonData[Math.floor(Math.random() * (jsonData.length + 1))])}
-			axios.get(`https://www.googleapis.com/youtube/v3/videos?part=snippet, statistics, contentDetails&id=${idArray}&key=${api_key}`)
-				.then((res) => {
-				if (idArray.length - res.data.items.length !== 0) {getVideoData(idArray.length - res.data.items.length)}
-				arrClosure = arr.concat(res.data.items)
-				arr = arrClosure
-				setData(arrClosure)
-			})
-				.catch((err) => {console.log(err)})
-					.then(() => {console.log("request made")})
+	
+	
+	/*var allTags = []
+	if (videoData.length === 20) {
+		for (let i of videoData) {
+			allTags = allTags.concat(i.snippet.tags)
 		}
-		
-		getVideoData(16)
-
-	}, [])
-	
-	useEffect(() => {
-		if (videoData.length !== 16) {return}
-		
-		var channelIdArray = videoData.map((item) => {return item.snippet.channelId})
-		axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${channelIdArray}&key=${api_key}`)
-			.then((res) => { setChannelData(res.data.items) })
-			.catch((err) => console.log(err))
-				.then(() => console.log('channel request made'))
-		
-	}, [videoData])
-
-
+		console.log(allTags)
+		//const counts = {};
+		//allTags.forEach(function (x) { counts[x] = (counts[x] || 0) + 1; });
+		//let maxValues = Object.entries(counts).sort((x,y)=>y[1]-x[1]).slice(0, 10)
+		//console.log(maxValues)
+	}
+	*/
 	return(
-		<div className="homepage-container" >
+		<div className="homepage-container">
 			<Header handleMenu={handleMenu}/>
 			<div className="flex">
 				<Navbar
@@ -95,7 +68,7 @@ export default function HomePage() {
 				</motion.div>
 				<div className={isMenuViewChanged ? "home-page-content home-page-content-big" : "home-page-content"}>
 					<TagsHome />
-					<VideosHome isMenuViewChanged={isMenuViewChanged} videoData={videoData} channelData={channelData}/>
+					<VideosHome isMenuViewChanged={isMenuViewChanged}/>
 				</div>
 			</div>
 		</div>
