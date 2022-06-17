@@ -16,7 +16,7 @@ export function NavbarItem(props) {
 export function NavbarItemSub() {
 	return(
 		<Link className="navbar-item flex" to="/idk" style={{textDecoration: "none", color: "black"}}>
-			<img className="navbar-sub-img" src={Icon.Avatar} />
+			<img className="navbar-sub-img" src={Icon.Avatar} alt="subbed-channel-pp" />
 			<p>Some Channel</p>
 		</Link>
 	)
@@ -27,7 +27,6 @@ export function Navbar(props) {
 	const [isShowinMore, setIsShowinMore] = useState(false)
 	const [isShowinMoreSubs, setIsShowinMoreSubs] = useState(false)
 
-	var isScreenSmall = props.isScreenSmall
 	var containerClasses;
 	
   if (props.isMenuViewChanged) {containerClasses = "navbar--container navbar-small"}

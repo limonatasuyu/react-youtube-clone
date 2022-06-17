@@ -1,6 +1,6 @@
 import * as Icon from './ImportNavbarImages'
-import {ReactComponent as Logo} from '../img/HeaderIcons/logo.svg'
-import {ReactComponent as Menu} from '../img/HeaderIcons/menu.svg'
+import {ReactComponent as Logo} from '../../img/HeaderIcons/logo.svg'
+import {ReactComponent as Menu} from '../../img/HeaderIcons/menu.svg'
 import {Link} from 'react-router-dom'
 import {useState} from 'react'
 import {NavbarItem, NavbarItemSub} from './Navbar'

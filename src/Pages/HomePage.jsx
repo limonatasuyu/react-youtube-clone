@@ -1,10 +1,10 @@
-import Header from '../Components/Header'
-import {Navbar} from '../Components/Navbar'
-import {NavbarSlide} from '../Components/NavbarSlide'
+import Header from '../Components/Header/Header'
+import {Navbar} from '../Components/Navbar/Navbar'
+import {NavbarSlide} from '../Components/Navbar/NavbarSlide'
 import {useState, useEffect} from 'react'
 import {motion, useAnimation} from 'framer-motion'
 import {TagsHome} from '../Components/Tags'
-import {VideosHome} from '../Components/Videos'
+import {VideosHome} from '../Components/Videos/Videos'
 
 export default function HomePage() {
 
@@ -29,22 +29,7 @@ export default function HomePage() {
 
 	}
 	if (windowWidth > 1330) {control.start("unVisible")}
-	//console.log(window)
 	
-	
-	
-	/*var allTags = []
-	if (videoData.length === 20) {
-		for (let i of videoData) {
-			allTags = allTags.concat(i.snippet.tags)
-		}
-		console.log(allTags)
-		//const counts = {};
-		//allTags.forEach(function (x) { counts[x] = (counts[x] || 0) + 1; });
-		//let maxValues = Object.entries(counts).sort((x,y)=>y[1]-x[1]).slice(0, 10)
-		//console.log(maxValues)
-	}
-	*/
 	return(
 		<div className="homepage-container">
 			<Header handleMenu={handleMenu}/>

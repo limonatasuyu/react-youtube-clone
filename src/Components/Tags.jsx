@@ -1,7 +1,7 @@
 import {ReactComponent as NavigateIcon} from '../img/OtherIcons/tags-navigate.svg'
 import {motion, useAnimation} from 'framer-motion'
 import {useState, useRef} from 'react'
-import {useOnScreen} from '../CustomHooks'
+import {useOnScreen} from '../Helpers/CustomHooks'
 
 function Tag(props) {
 	return(
