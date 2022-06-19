@@ -82,4 +82,44 @@ function getDurationObj(duration) {
 	return durationObj
 }
 
-export {shortenNumber, parseISOString, getTimeChange, getDurationObj}
+function getRandomObjects(count, jsonObj) {
+
+	var randomObjects = [];
+	
+	//Creating an array of objects in json
+	let arr = Object.keys(jsonObj)
+	
+	//Creating a for loop for selecting specific number of objects
+	for (let i=0; i< count; i++) {
+		//Choosing a random element
+		let randomEntry = arr[Math.floor(Math.random() * arr.length)]
+		
+		//Appending object to randomObjects array
+		randomObjects = [...randomObjects, randomEntry]
+		
+		//Deleting chosen object from array in order to prevent selecting any object twice or more
+		arr.splice(arr.indexOf(randomEntry), 1)
+	}
+	
+	return randomObjects;
+}
+
+
+//Function for getting random elements from an array
+//Works just like getRandomObjects function above
+
+function getRandomElements(elementCount, array) {
+	
+	let returnArr = []
+	let closureArr = array
+
+	for (let i=0; i<elementCount; i++) {
+		let randomElement = closureArr[Math.floor(Math.random() * (closureArr.length - 1))]
+		returnArr = [...returnArr, randomElement]
+		closureArr.splice(closureArr.indexOf(randomElement), 1)
+	}
+	
+	return returnArr
+}
+
+export {shortenNumber, parseISOString, getTimeChange, getDurationObj, getRandomObjects, getRandomElements}
