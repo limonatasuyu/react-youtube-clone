@@ -5,6 +5,8 @@ import {useState, useEffect} from 'react'
 import {motion, useAnimation} from 'framer-motion'
 import {TagsHome} from '../Components/Tags'
 import {VideosHome} from '../Components/Videos/Videos'
+import {videoMetaData} from '../Components/Videos/ImportData'
+import {getRandomObjects} from '../Helpers/HelperFunctions'
 
 export default function HomePage() {
 
@@ -30,6 +32,19 @@ export default function HomePage() {
 	}
 	if (windowWidth > 1330) {control.start("unVisible")}
 	
+	
+	// Creating a state for categories in order to arranging the thumbnails and tags orientation 
+	const [categories, setCategories] = useState(null);
+	
+	// Categories needs to be setted once so i'm using useEffect hook
+	useEffect(() => {
+		// getRandomObjects is a function for getting random n objects from an object (for more: ../../Helpers/HelperFunctions.js)
+		setCategories(getRandomObjects(10, videoMetaData))
+	}, [])
+	
+	
+	const [currentCategory, setCurrentCategory] = useState("All")
+
 	return(
 		<div className="homepage-container">
 			<Header handleMenu={handleMenu}/>
@@ -52,8 +67,12 @@ export default function HomePage() {
 				<NavbarSlide handleMenu={handleMenu} />
 				</motion.div>
 				<div className={isMenuViewChanged ? "home-page-content home-page-content-big" : "home-page-content"}>
-					<TagsHome />
-					<VideosHome isMenuViewChanged={isMenuViewChanged}/>
+					{	/* if the categories is not setted yet don't mount the videos and categories */ categories &&
+					<>
+					<TagsHome categories={categories} setCurrentCategory={setCurrentCategory} currentCategory={currentCategory}/>
+					<VideosHome isMenuViewChanged={isMenuViewChanged} categories={categories} currentCategory={currentCategory}/>
+					</>
+					}
 				</div>
 			</div>
 		</div>

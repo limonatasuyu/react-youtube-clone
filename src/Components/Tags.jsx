@@ -4,20 +4,37 @@ import {useState, useRef} from 'react'
 import {useOnScreen} from '../Helpers/CustomHooks'
 
 function Tag(props) {
+	
+	// formatting the tag names
+		//for (let i of props.categories) {
+		//	let tag = i.split('And').join(' and ')
+		//	tagProps = [...tagProps, tag]
+	//}
+
+	let tagName = props.tagName.split('And').join(' and ')
+	if (tagName === 'Howto and Style') {tagName = 'How to and Style'}
+	
+	var isActive;
+	if (props.currentCategory === props.tagName) {isActive = true}
+	var isActiveStyle = {
+		backgroundColor: 'black',
+		color: 'white'
+	}
+
 	return(
-		<div className="single-tag">
-			<span>{props.children}</span>
+		<div className="single-tag" onClick={() => {props.setCurrentCategory(props.tagName)}} style={isActive && isActiveStyle}>
+			<span>{tagName}</span>
 		</div>
 	)
 }
 
 export function TagsHome(props) {
 
-	const tagProps = ["All", "New to you", "Music", "Gaming", "Mixes", "Python", "Linux", "Web Development", "Memes", "AI" , "History", "Algorithms", "Some Tag", "Some Tag", "Some Tag", "Some Tag", "Some Tag"]
+	var tagProps = ['All', ...props.categories]
 	
 	const tags = tagProps.map((item, index) => {
 		return(
-			<Tag key={index}>{item}</Tag>
+			<Tag key={index} tagName={item} setCurrentCategory={props.setCurrentCategory} currentCategory={props.currentCategory}></Tag>
 		)
 	})
 
