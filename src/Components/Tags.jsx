@@ -3,13 +3,7 @@ import {motion, useAnimation} from 'framer-motion'
 import {useState, useRef} from 'react'
 import {useOnScreen} from '../Helpers/CustomHooks'
 
-function Tag(props) {
-	
-	// formatting the tag names
-		//for (let i of props.categories) {
-		//	let tag = i.split('And').join(' and ')
-		//	tagProps = [...tagProps, tag]
-	//}
+export function Tag(props) {
 
 	let tagName = props.tagName.split('And').join(' and ')
 	if (tagName === 'Howto and Style') {tagName = 'How to and Style'}

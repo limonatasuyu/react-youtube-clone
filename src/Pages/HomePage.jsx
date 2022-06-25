@@ -7,6 +7,7 @@ import {TagsHome} from '../Components/Tags'
 import {VideosHome} from '../Components/Videos/Videos'
 import {videoMetaData} from '../Components/Videos/ImportData'
 import {getRandomObjects} from '../Helpers/HelperFunctions'
+import {Outlet} from 'react-router-dom'
 
 export default function HomePage() {
 
@@ -75,6 +76,7 @@ export default function HomePage() {
 					}
 				</div>
 			</div>
+			<Outlet />
 		</div>
 	)
 }

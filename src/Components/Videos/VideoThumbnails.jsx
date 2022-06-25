@@ -28,7 +28,7 @@ function VideoThumbnail(props) {
 	}, [isDisplay])
 
 	return(
-		<Link to={data ? `/watch?q=${data.id}` : "/"} className={isDisplay ? "video-thumbnail" : "display-none" } style={{textDecoration: "none", color: "Black"}}>
+		<Link to={data ? `/watch/${data.id}` : "/"} className={isDisplay ? "video-thumbnail" : "display-none" } style={{textDecoration: "none", color: "Black"}}>
 				<div className="video-img-wrapper">
 					<img src={data.snippet.thumbnails.high.url} alt="thumbnail"/>
 					<div className="video-duration">{duration.Hours !== "0" ? duration.Hours + ":" : ""}{duration.Minutes}:{duration.Seconds}</div>
@@ -178,12 +178,5 @@ export default function VideoThumbnailChunk(props) {
 		<>
 			{videothumbnails}
 		</>
-	)
-}
-
-function VideoChunkWithCategory(props) {
-	
-	return(
-		<h1>Test</h1>
 	)
 }

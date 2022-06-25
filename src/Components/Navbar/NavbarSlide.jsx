@@ -12,7 +12,7 @@ export function NavbarSlide(props) {
 
 	
 	return(
-		<div className="slide-navbar--container">
+		<div className="slide-navbar--container" style={props.style}>
 			<div className="logo-n-menu--navbar">
 					<Menu className="header-icon menu-icon" onClick={props.handleMenu}/>
 					<Link to="/"><Logo className="header-icon logo" /></Link>

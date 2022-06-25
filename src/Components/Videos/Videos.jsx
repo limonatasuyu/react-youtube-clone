@@ -23,7 +23,7 @@ function LoadThumbnail(props) {
 
 	useEffect(() => {
 	
-		if (props.displayedVideoCount < 16) {
+		if (props.displayedVideoCount < 16 && props.currentCategory !== 'All') {
 			setIsChunkNeedsMount(true)
 		}
 	
