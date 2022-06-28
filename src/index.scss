@@ -631,12 +631,14 @@ $Roboto : 'family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,3
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
 	}
-	.channel-name, .video-details-meta {
-		color: #606060;
-		font-size: .9rem;
-		line-height: .4rem;
-	}
 }
+.channel-name, .video-details-meta {
+	color: #606060;
+	font-size: .9rem;
+	line-height: .4rem;
+	font-family: 'Roboto'
+}
+
 
 @media screen and (max-width: 1790px) {
 	.videos-home {
@@ -672,12 +674,103 @@ $Roboto : 'family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,3
 /* |         WatchPage         | */
 /* |---------------------------| */
 
-.watchPage-container{}
+.watchPage-container {}
+
+.watchPage-content--container {
+	background-color: #f9f9f9;
+}
 
 .embed-video--container {
 	margin-top: 1.5rem;
 	margin-left: 6.2rem;
 	width: 80rem;
-	height: 45rem;
-	iframe {width: inherit; height: inherit}
+	iframe { width: inherit; height: 45rem; } //is gonna change (make it more responsive)
+	.video-details-meta {
+		margin-top: .6rem;
+	}
+}
+
+.currently-watched--video-title {
+	font-family: 'Roboto';
+	font-size: 1.125rem;
+	font-weight: 400;
+	margin-top: 1.1rem;
+}
+
+.currently-watched--icons {
+	margin-top: -1rem;
+	gap: 1rem;
+	svg { height: 1.65rem; }
+	div { align-items: center; gap: .3rem;}
+	p {
+		font-family: 'Roboto';
+		font-weight: 500;
+		font-size: .95rem;
+	}
+}
+
+.currently-watched--description-area {
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	font-family: 'Roboto'
+}
+
+.description-area--channel-data {
+	margin-top: 1.6rem;
+}
+
+.channel-data--text {
+	// There are only two span   tags
+	span:first-child { font-weight: 500; font-size: .9rem;}
+	span:last-child {color: #555; font-size: .8rem; margin-bottom: .5rem;}
+}
+
+.description-area--channel-pic {
+	height: 2.8rem;
+	border-radius: 50px;
+	cursor: pointer;
+}
+
+.subscribe-button {
+	padding: .6rem .9rem;
+	background-color: #c00;
+	color: white;
+	font-weight: 500;
+	font-size: .88rem;
+	letter-spacing: .05rem;
+	border-radius: 2px
+}
+
+.description-area--description {
+	width: 50%;
+	white-space: pre-wrap;
+	font-size: .9rem;
+	margin-left: 3.9rem;
+}
+
+.description-area--show-more {
+	color: #666;
+	font-weight: 500;
+	font-size: .75rem;
+	cursor: pointer;
+}
+
+.currently-watched--comments {
+	font-family: 'Roboto';
+	div:first-child {
+		margin-top: 1.2rem;
+	}
+}
+
+.comments--icon {
+	gap: .5rem;
+	align-items: center;
+	svg {height: 1.5rem;}
+	span {font-weight: 500; font-size: .9rem;}
+}
+
+.comments--user-comment {
+	margin-top: 1rem;
+	img {height: 2.5rem; border-radius: 50px;}
+	input {margin-left: 1rem}
 }

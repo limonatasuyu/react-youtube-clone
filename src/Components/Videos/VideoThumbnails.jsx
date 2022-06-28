@@ -6,6 +6,7 @@ import noImg from '../../img/OtherIcons/no-image.png'
 import axios from 'axios'
 import {videoMetaData} from './ImportData'
 
+
 const api_key = 'api_key'
 
 function VideoThumbnail(props) {
@@ -63,7 +64,6 @@ export default function VideoThumbnailChunk(props) {
 
 	// fetching data of random videos with youtube data api v3
 	useEffect(() => {
-
 
 		// Creating the array that will be using on setData
 		let arr = [];

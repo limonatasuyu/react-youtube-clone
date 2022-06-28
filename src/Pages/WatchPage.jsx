@@ -2,8 +2,9 @@ import {useParams} from 'react-router-dom'
 import Header from '../Components/Header/Header'
 import {NavbarSlide} from '../Components/Navbar/NavbarSlide'
 import {motion, useAnimation} from 'framer-motion'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {Tag} from '../Components/Tags'
+import {CurrentlyWatchedVideo} from '../Components/Videos/Videos'
 
 export default function WatchVideoPage() {
 	
@@ -23,7 +24,6 @@ export default function WatchVideoPage() {
 		else {control.start("visible")}
 	}
 	
-	const embedVideo = <iframe src={`https://www.youtube.com/embed/${videoId}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
 	
 	return(
 		<div className='watchPage-container'>
@@ -42,13 +42,13 @@ export default function WatchVideoPage() {
 				<NavbarSlide handleMenu={handleMenu} style={{display: 'block'}} />
 			</motion.div>
 			<div className='watchPage-content--container flex' style={{gap: '1rem'}}>	
-				<div className='embed-video--container'>
-				 {embedVideo}
+				<CurrentlyWatchedVideo videoId={videoId} />
+				<div className='comments'>
 				</div>
 				<div>
 					<div className='watchPage-tags flex' style={{gap: '.5rem'}}>
-						<Tag tagName='ABC'/>
-						<Tag tagName='DEF'/>
+						<Tag tagName='test 1'/>
+						<Tag tagName='test 2'/>
 					</div>
 					<div className='watchPage-relatedVideos'>
 					</div>
