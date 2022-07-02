@@ -9,7 +9,7 @@ import {CurrentlyWatchedVideo} from '../Components/Videos/Videos'
 export default function WatchVideoPage() {
 	
 	const {videoId} = useParams()
-	
+
 	const [isMenuViewChanged, setMenuView] = useState(false)
 	const control = useAnimation()
 

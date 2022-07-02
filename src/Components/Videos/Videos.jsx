@@ -2,6 +2,7 @@ import VideoThumbnailChunk from './VideoThumbnails'
 import {useEffect, useState} from 'react'
 import * as Icon from './ImportIcons'
 import Avatar from '../../img/OtherIcons/avatar.jpeg'
+import {motion} from 'framer-motion'
 // Thumbnails in HomePage needs to be loaded by chunks in order to maintain the 'load onScrollEnd' functionality
 // It basically means saying the computer 'when user gets end of the screen load new thumbnails'   
 function LoadThumbnail(props) {
@@ -131,6 +132,31 @@ export function CurrentlyWatchedVideo(props) {
 	
 	const [isShowinMore, setIsShowinMore] = useState(false)
 	
+	const Comment = (props) => {
+		const comment = props.comment
+	return (
+		<div className='video-comments--single-comment flex'>
+			<div className='flex'>
+				<div className='single-comment--commenter-avatar'>
+					<img src={Avatar}/>
+				</div>
+				<div className='single-comment--commenter-avatar'>
+					someOne
+				</div>
+			</div>
+			
+			<div className='single-comment--comment' >
+				{comment}
+			</div>
+		</div>
+	)} 
+	
+	
+	const [newComment, setNewComment] = useState('')
+	const [commentList, setCommentList] = useState([<Comment comment='test 1' />, <Comment comment='test 2' />, <Comment comment='test 3' />])
+	
+	const [isCommentFocus, setIsCommentFocus] = useState(false)
+	
 	return(
 		<div className='embed-video--container'>
 			<EmbedVideo videoId={props.videoId}/>
@@ -183,8 +209,26 @@ export function CurrentlyWatchedVideo(props) {
 				</div>
 				<div className='comments--user-comment flex'>
 					<img src={Avatar} />
-					<input placeHolder='Add a comment...'/>
-				</div>			
+					<div>
+						<input 
+						placeHolder='Add a comment...'
+						value={newComment}
+						onChange={(e) => {setNewComment(e.target.value)}}
+						onFocus={() => {setIsCommentFocus(true)}}
+						/>
+						<hr className={isCommentFocus ? '' : 'display-none'}/>
+						<div className={isCommentFocus ? 'user-comment--buttons flex' : 'display-none'}>
+							<button onClickCapture={() => {setNewComment(''); setIsCommentFocus(false)}}>CANCEL</button>
+							<button
+							onClick={() => {setCommentList([...commentList, <Comment comment={newComment} />]); setNewComment('')}} 
+							style={(newComment.length !== 0) ? {backgroundColor: '#065fd4', color: 'white'} : {}}
+							>COMMENT</button>
+						</div>
+					</div>	
+				</div>
+				<div className='comments--video-comments'>
+					{commentList}
+				</div>
 			</div>
 		</div>
 	)
