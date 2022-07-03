@@ -20,6 +20,8 @@ function shortenNumber(num) {
     return (num / si[index].v).toFixed(2).replace(/\.0+$|(\.[0-9]*[1-9])0+$/, "$1") + si[index].s;
 }
 
+// There is a problem with this function
+// It says both 5th and 6th month are july
 function parseISOString(s) {
   var b = s.split(/\D+/);
   return new Date(Date.UTC(b[0], b[1], b[2], b[3], b[4]));

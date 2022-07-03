@@ -1,8 +1,20 @@
 import VideoThumbnailChunk from './VideoThumbnails'
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useRef} from 'react'
 import * as Icon from './ImportIcons'
 import Avatar from '../../img/OtherIcons/avatar.jpeg'
 import {motion} from 'framer-motion'
+import axios from 'axios'
+import {ReactComponent as LikeComment} from '../../img/OtherIcons/likeComment.svg'
+import {ReactComponent as DislikeComment} from '../../img/OtherIcons/dislikeComment.svg'
+import {ReactComponent as LikeCommentActive} from '../../img/OtherIcons/likeCommentActive.svg'
+import {ReactComponent as DislikeCommentActive} from '../../img/OtherIcons/dislikeCommentActive.svg'
+import {getTimeChange, parseISOString} from '../../Helpers/HelperFunctions'
+import noImg from '../../img/OtherIcons/no-image.png'
+import {useOutsideClick} from '../../Helpers/CustomHooks'
+
+
+const api_key = 'api_key'
+
 // Thumbnails in HomePage needs to be loaded by chunks in order to maintain the 'load onScrollEnd' functionality
 // It basically means saying the computer 'when user gets end of the screen load new thumbnails'   
 function LoadThumbnail(props) {
@@ -134,28 +146,100 @@ export function CurrentlyWatchedVideo(props) {
 	
 	const Comment = (props) => {
 		const comment = props.comment
+		
+		const [isShowinMore, setIsShowinMore] = useState(false)
+		
+		var content;
+		if (comment.split('\n').length < 5) {content = comment}
+		else if (!isShowinMore) {content = 
+			<>
+				{comment.split('\n').slice(0, 5).join('\n')}
+				<p className='comment--show-more' onClick={() => {setIsShowinMore(true)}}>Read more</p>
+			</>
+		}
+		else {content = 
+			<>
+				{comment}
+				<p className='comment--show-more' onClick={() => {setIsShowinMore(false)}}>show less</p>
+			</>
+		}
+		
+		const [likeCount, setLikeCount] = useState(null)
+		const [isUserLiked, setIsUserLiked] = useState(false)
+		const [isUserDisliked, SetIsUserDisliked] = useState(false)
+		
+		useEffect(() => {setLikeCount(props.likeCount)}, [])
+		
+		
+		const handleLike = () => {
+			if (!isUserLiked) {setLikeCount(likeCount + 1); setIsUserLiked(true)}
+			else {setLikeCount(likeCount - 1); setIsUserLiked(false);}
+		}	
+			
+		const handleDislike = () => {
+			if (isUserLiked) {setLikeCount(likeCount - 1); setIsUserLiked(false)}
+			if (!isUserDisliked) {SetIsUserDisliked(true)} else {SetIsUserDisliked(false)}
+		}
+		
 	return (
 		<div className='video-comments--single-comment flex'>
-			<div className='flex'>
-				<div className='single-comment--commenter-avatar'>
-					<img src={Avatar}/>
+			<img className='single-comment--commenter-avatar' src={props.commenterAvatar} onError={(e) => { e.target.onerror = null; e.target.src = noImg}}/>
+			<div className='single-comment--comment-section'>
+				<div className='comment-section--comment-details flex'>
+					<div className='comment-details--commenter-name'>{props.commenterName}</div>
+					<div className='comment-details--comment-date'>{getTimeChange(props.date)} ago {props.isChanged && '(edited)'}</div>
 				</div>
-				<div className='single-comment--commenter-avatar'>
-					someOne
+				<div className='single-comment--comment' >
+					{content}
 				</div>
-			</div>
-			
-			<div className='single-comment--comment' >
-				{comment}
+				<div className='single-comment--icons flex'>
+					{isUserLiked ? <LikeCommentActive onClick={handleLike}/> : <LikeComment onClick={handleLike}/>}
+					{likeCount !== 0 && <p style={{marginLeft: '-.5rem'}}>{likeCount}</p>}
+					{isUserDisliked ? <DislikeCommentActive onClick={handleDislike} /> : <DislikeComment onClick={handleDislike} />}
+					<p>ANSWER</p>
+				</div>
 			</div>
 		</div>
 	)} 
 	
 	
 	const [newComment, setNewComment] = useState('')
-	const [commentList, setCommentList] = useState([<Comment comment='test 1' />, <Comment comment='test 2' />, <Comment comment='test 3' />])
+	const [commentList, setCommentList] = useState([])
+	
+	const [commentListType, setCommentListType] = useState('relevance')
+	
+	useEffect(() => {getComments(commentListType)}, [])
+	
+	function getComments(type) {
+	axios.get(`https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&order=${type}&videoId=${props.videoId}&key=${api_key}`)
+			.then((res) => {
+				console.log(res)
+				
+				var comList = res.data.items.map((item, index) => {
+					return <Comment
+					key={index}
+					comment={item.snippet.topLevelComment.snippet.textOriginal}
+					date={item.snippet.topLevelComment.snippet.publishedAt}
+					isChanged={item.snippet.topLevelComment.snippet.publishedAt !== item.snippet.topLevelComment.snippet.updatedAt}
+					commenterName={item.snippet.topLevelComment.snippet.authorDisplayName}
+					commenterAvatar={item.snippet.topLevelComment.snippet.authorProfileImageUrl}
+					likeCount={item.snippet.topLevelComment.snippet.likeCount}
+					/>
+				})
+				
+				setCommentList(comList)
+			})
+			.catch((err) => {console.log(err)})
+				.then(() => {console.log('comment request made')})
+	
+	}
 	
 	const [isCommentFocus, setIsCommentFocus] = useState(false)
+
+	// SortBy Drop Down Setup
+	const [isSortByDropDownShowing, setIsSortByDropDownShowing] = useState(false)
+	const sortByDropDownRef = useRef(null)
+	useOutsideClick(sortByDropDownRef, () => setIsSortByDropDownShowing(false))
 	
 	return(
 		<div className='embed-video--container'>
@@ -200,10 +284,21 @@ export function CurrentlyWatchedVideo(props) {
 				</div>
 			</div>
 			<div className='currently-watched--comments'>
-				<div className='flex' style={{gap: '1.8rem', alignItems: 'center'}}>
+				<div className='comments--icons flex' style={{gap: '1.8rem', alignItems: 'center'}}>
 					<span className='comments--comment-count'>152 Comments</span>
-					<div className='comments--icon flex'>
+					<div className='comments--icon flex' onClick={() => {
+					setTimeout(() => {setIsSortByDropDownShowing(!isSortByDropDownShowing)}, 0)}}>
 						<Icon.Sortby />
+						{isSortByDropDownShowing && 
+							<div ref={sortByDropDownRef} className='sort-by--drop-down drop-down'>
+								<div onClick={() => {if (commentListType !== 'relevance') {getComments('relevance'); setCommentListType('relevance')} }}>
+									<p>Best Reviews</p>
+								</div>
+								<div onClick={() => {if (commentListType !== 'time') {getComments('time'); setCommentListType('time')} }}>
+									<p>New First</p>
+								</div>
+							</div>
+						}
 						<span>SORT BY</span>
 					</div>
 				</div>
@@ -211,7 +306,7 @@ export function CurrentlyWatchedVideo(props) {
 					<img src={Avatar} />
 					<div>
 						<input 
-						placeHolder='Add a comment...'
+						placeholder='Add a comment...'
 						value={newComment}
 						onChange={(e) => {setNewComment(e.target.value)}}
 						onFocus={() => {setIsCommentFocus(true)}}
@@ -226,23 +321,10 @@ export function CurrentlyWatchedVideo(props) {
 						</div>
 					</div>	
 				</div>
-				<div className='comments--video-comments'>
+				<div className='comments--video-comments grid'>
 					{commentList}
 				</div>
 			</div>
 		</div>
 	)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
