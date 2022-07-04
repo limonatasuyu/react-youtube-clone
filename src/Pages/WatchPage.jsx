@@ -2,9 +2,9 @@ import {useParams} from 'react-router-dom'
 import Header from '../Components/Header/Header'
 import {NavbarSlide} from '../Components/Navbar/NavbarSlide'
 import {motion, useAnimation} from 'framer-motion'
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import {Tag} from '../Components/Tags'
-import {CurrentlyWatchedVideo} from '../Components/Videos/Videos'
+import {CurrentlyWatchedVideo} from '../Components/Videos/CurrentlyWatchedVideo'
 
 export default function WatchVideoPage() {
 	

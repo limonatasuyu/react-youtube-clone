@@ -23,9 +23,10 @@ function VideoThumbnail(props) {
 	if (currentCategoryId === 0 || currentCategoryId === categoryId) {isDisplay = true;}
 	else {isDisplay = false;}
 
+	var {setDisplayedVideoCount} = props
 	useEffect(() => {
-		if (isDisplay) {props.setDisplayedVideoCount(prev => {return prev + 1})}
-		else {props.setDisplayedVideoCount(prev => {return prev - 1})}
+		if (isDisplay) {setDisplayedVideoCount(prev => {return prev + 1})}
+		else {setDisplayedVideoCount(prev => {return prev - 1})}
 	}, [isDisplay])
 
 	return(
