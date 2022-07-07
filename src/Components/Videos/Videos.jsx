@@ -8,13 +8,12 @@ function LoadThumbnail(props) {
 	// Setting the state for the chunk after this one needs mounting or not
 	const [isChunkNeedsMount, setIsChunkNeedsMount] = useState(false)
 
-	// isChunkNeedsMount needs to change once so i'm using useEffect hook
 	useEffect(() => {
 		
 		const abortController = new AbortController();
 		
 		// Function for detecting if user is on end of the page or not 
-		// It also deletes the event listener when it's done to prevent unusing eventlistener to use memory (or something i don't really know how eventlisteners uses memory but it sounds good to deleting an unusing thing)
+		// When it's done, it also deletes the event listener to prevent unusing eventlisteners to use memory (or something i don't really know how eventlisteners uses memory but it sounds good to deleting an unusing thing)
 		const handler = () => {
 			if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {setIsChunkNeedsMount(true); abortController.abort();}
 		}
