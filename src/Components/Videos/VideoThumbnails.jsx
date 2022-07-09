@@ -5,11 +5,10 @@ import {shortenNumber, getTimeChange, getDurationObj, getRandomElements} from '.
 import noImg from '../../img/OtherIcons/no-image.png'
 import axios from 'axios'
 import {videoMetaData} from './ImportData'
+import {api_key} from '../../apiKey'
 
 
-const api_key = 'api_key'
-
-function VideoThumbnail(props) {
+export function VideoThumbnail(props) {
 
 	const data = props.data
 	var publishDate = data.snippet.publishedAt.slice(0, data.snippet.publishedAt.length - 4)

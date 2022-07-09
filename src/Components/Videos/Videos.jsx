@@ -1,5 +1,8 @@
-import VideoThumbnailChunk from './VideoThumbnails'
+import VideoThumbnailChunk, {VideoThumbnail} from './VideoThumbnails'
 import {useEffect, useState} from 'react'
+import {api_key} from '../../apiKey'
+import axios from 'axios'
+
 
 // Thumbnails in HomePage needs to be loaded by chunks in order to maintain the 'load onScrollEnd' functionality
 // It basically means saying the computer 'when user gets end of the screen load new thumbnails'   
@@ -70,5 +73,27 @@ export function VideosHome(props) {
 	)
 }
 
+export function RelatedVideos(props) {
+	
+	var videoId = props.videoId 
+	
+	const [relatedVideos, setRelatedVideos] = useState(null)
+	useEffect(() => {
+		var url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${videoId}&type=video&videoEmbeddable=true&key=${api_key}`;
+		axios.get(url)
+			.then((res) => {
+				
+				console.log(res.data.items)
+				
+				})
+			.catch((err) => {console.log(err)})
+				.then(() => {console.log('Fetch for currently watching video made')})
+	}, [])
+	
+	return(
+		<>Test</>
+	)
+
+}
 
 

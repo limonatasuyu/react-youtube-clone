@@ -2,10 +2,13 @@ import {useParams} from 'react-router-dom'
 import Header from '../Components/Header/Header'
 import {NavbarSlide} from '../Components/Navbar/NavbarSlide'
 import {motion, useAnimation} from 'framer-motion'
-import {useState} from 'react'
-import {Tag} from '../Components/Tags'
+import {useState, useEffect} from 'react'
+import {WatchPageTags} from '../Components/Tags'
 import {CurrentlyWatchedVideo} from '../Components/Videos/CurrentlyWatchedVideo'
-
+import axios from 'axios'
+import {api_key} from '../apiKey'
+import VideoThumbnailChunk from '../Components/Videos/VideoThumbnails'
+import {RelatedVideos} from '../Components/Videos/Videos'
 export default function WatchVideoPage() {
 	
 	const {videoId} = useParams()
@@ -23,6 +26,11 @@ export default function WatchVideoPage() {
 		if (isMenuViewChanged) {control.start("unVisible")}
 		else {control.start("visible")}
 	}
+	
+	
+
+	var tags = ['all', 'related', 'test']
+	
 	
 	
 	return(
@@ -43,14 +51,10 @@ export default function WatchVideoPage() {
 			</motion.div>
 			<div className='watchPage-content--container flex' style={{gap: '1rem'}}>	
 				<CurrentlyWatchedVideo videoId={videoId} />
-				<div className='comments'>
-				</div>
 				<div>
-					<div className='watchPage-tags flex' style={{gap: '.5rem'}}>
-						<Tag tagName='test 1'/>
-						<Tag tagName='test 2'/>
-					</div>
+					<WatchPageTags tags={tags}/>
 					<div className='watchPage-relatedVideos'>
+						<RelatedVideos videoId={videoId} />
 					</div>
 				</div>
 			</div>

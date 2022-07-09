@@ -8,7 +8,7 @@ import {getTimeChange, shortenNumber, parseISOString} from '../../Helpers/Helper
 import * as Icon from './ImportIcons'
 import noImg from '../../img/OtherIcons/no-image.png'
 import Avatar from '../../img/OtherIcons/avatar.jpeg'
-const api_key = 'AIzaSyBC3vtuuaIOPD4JjLnyR32_TNyQRSyfgns'
+import {api_key} from '../../apiKey'
 
 export function CurrentlyWatchedVideo(props) {
 	

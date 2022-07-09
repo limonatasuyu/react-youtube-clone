@@ -2,8 +2,7 @@ import {useState, useEffect, useRef} from 'react'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid';
 import {Comment} from './Comments'
-
-const api_key = 'api_key'
+import {api_key} from '../../apiKey'
 
 // Comments from the video
 function DefaultCommentChunk(props) {
@@ -19,7 +18,6 @@ function DefaultCommentChunk(props) {
 		
 		axios.get(url)
 			.then((res) => {
-				console.log(res)
 				var comList = res.data.items.map((item, index) => {
 					return <Comment
 						key={uuidv4()}

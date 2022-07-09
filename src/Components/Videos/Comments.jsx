@@ -8,7 +8,7 @@ import {LoadCommentChunks} from './LoadComments'
 import * as Icon from './ImportIcons'
 import noImg from '../../img/OtherIcons/no-image.png'
 import Avatar from '../../img/OtherIcons/avatar.jpeg'
-const api_key = 'api_key'
+import {api_key} from '../../apiKey'
 
 
 const Comment = (props) => {

@@ -79,3 +79,15 @@ export function TagsHome(props) {
 		</div>
 	)
 }
+
+export function WatchPageTags(props) {
+	
+	var tags;
+	if (props.tags) {tags = props.tags.map((item, index) => {return <Tag key={index} tagName={item}/>})}
+		
+	return (
+	<div className='watchPage-tags flex'>
+		{tags}
+	</div>
+	)
+}
