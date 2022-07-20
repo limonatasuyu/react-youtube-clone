@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/react-youtube-clone/static/css/main.710c74ff.css",
-    "main.js": "/react-youtube-clone/static/js/main.88b42ff5.js",
+    "main.js": "/react-youtube-clone/static/js/main.ac1f865c.js",
     "static/media/no-image.png": "/react-youtube-clone/static/media/no-image.0e049a3860b0e7e6c2f1.png",
     "static/media/avatar.jpeg": "/react-youtube-clone/static/media/avatar.e6d58d1b3bae349b0c9d.jpeg",
     "static/media/notification-thumbnail.jpg": "/react-youtube-clone/static/media/notification-thumbnail.44eb40c3ea2c6481f412.jpg",
@@ -80,10 +80,10 @@
     "static/media/sortby.svg": "/react-youtube-clone/static/media/sortby.8dd6579beec287b1a6c523aa5d8925ca.svg",
     "static/media/reportHistory_active.svg": "/react-youtube-clone/static/media/reportHistory_active.edd53b2b4ff83d3f9f38fae3010cb0ae.svg",
     "main.710c74ff.css.map": "/react-youtube-clone/static/css/main.710c74ff.css.map",
-    "main.88b42ff5.js.map": "/react-youtube-clone/static/js/main.88b42ff5.js.map"
+    "main.ac1f865c.js.map": "/react-youtube-clone/static/js/main.ac1f865c.js.map"
   },
   "entrypoints": [
     "static/css/main.710c74ff.css",
-    "static/js/main.88b42ff5.js"
+    "static/js/main.ac1f865c.js"
   ]
 }
