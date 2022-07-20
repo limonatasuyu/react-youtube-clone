@@ -8,7 +8,7 @@ import {videoMetaData} from './ImportData'
 import {api_key} from '../../apiKey'
 
 
-export function VideoThumbnail(props) {
+export function HomeVideoThumbnail(props) {
 
 	const data = props.data
 	var publishDate = data.snippet.publishedAt.slice(0, data.snippet.publishedAt.length - 4)
@@ -43,7 +43,7 @@ export function VideoThumbnail(props) {
 						<p className="channel-name">{data.snippet.channelTitle}</p>
 						<p className="video-details-meta">{data && shortenNumber(data.statistics.viewCount)} views • {getTimeChange(publishDate)} ago </p>
 					</div>
-					<div className="video-options">
+					<div className="video-options display-none">
 						<Options />
 					</div>
 				</div>
@@ -51,6 +51,27 @@ export function VideoThumbnail(props) {
 	)
 }
 
+export const RelatedVideoThumbnail = (props) => {
+	
+	const data = props.data		
+	const publishDate = data.snippet.publishedAt.slice(0, data.snippet.publishedAt.length - 4)
+	
+	const duration = getDurationObj(data.contentDetails.duration)
+	
+	return(
+		<a href={`/watch/${props.data.id}`} className='related-video-thumbnail flex'>
+			<div className='video-img-wrapper'>
+				<img src={props.data.snippet.thumbnails.high.url} alt='related-video'/>
+				<div className="video-duration">{duration.Hours !== "0" ? duration.Hours + ":" : ""}{duration.Minutes}:{duration.Seconds}</div>
+			</div>
+			<div className="video-details-text">
+				<p className="video-name">{data.snippet.title}</p>
+				<p className="channel-name">{data.snippet.channelTitle}</p>
+				<p className="video-details-meta">{data && shortenNumber(data.statistics.viewCount)} views • {getTimeChange(publishDate)} ago </p>
+			</div>
+		</a>
+	)
+}
 
 // A chunk for 20 thumbnails
 export default function VideoThumbnailChunk(props) {
@@ -162,7 +183,7 @@ export default function VideoThumbnailChunk(props) {
 		
 		//mapping all of the data to VideoThumbnail Component
 		videothumbnails = videoDataProp.map((item, index) => { 
-			return <VideoThumbnail key={index} 
+			return <HomeVideoThumbnail key={index} 
 														data={item} 
 														channelData={channelDataProp[index]} 
 														categoryId={item.snippet.categoryId} 

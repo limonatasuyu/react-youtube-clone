@@ -1,7 +1,7 @@
-import {ReactComponent as NavigateIcon} from '../img/OtherIcons/tags-navigate.svg'
+import {ReactComponent as NavigateIcon} from '../../img/OtherIcons/tags-navigate.svg'
 import {motion, useAnimation} from 'framer-motion'
 import {useState, useRef} from 'react'
-import {useOnScreen} from '../Helpers/CustomHooks'
+import {useOnScreen} from '../../Helpers/CustomHooks'
 
 export function Tag(props) {
 
@@ -10,13 +10,9 @@ export function Tag(props) {
 	
 	var isActive;
 	if (props.currentCategory === props.tagName) {isActive = true}
-	var isActiveStyle = {
-		backgroundColor: 'black',
-		color: 'white'
-	}
 
 	return(
-		<div className="single-tag" onClick={() => {props.setCurrentCategory(props.tagName)}} style={isActive && isActiveStyle}>
+		<div className={isActive ? "single-tag active-tag" : "single-tag"} onClick={() => {props.setCurrentCategory(props.tagName)}}>
 			<span>{tagName}</span>
 		</div>
 	)

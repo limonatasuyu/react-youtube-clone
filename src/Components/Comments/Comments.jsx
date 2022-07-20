@@ -1,54 +1,52 @@
-import {useState, useEffect, useRef} from 'react'
-import axios from 'axios'
-import {useOutsideClick} from '../../Helpers/CustomHooks'
-import {getTimeChange, shortenNumber, parseISOString} from '../../Helpers/HelperFunctions'
-import { v4 as uuidv4 } from 'uuid';
- 
+import {useState} from 'react'
+import {getTimeChange} from '../../Helpers/HelperFunctions'
+
 import {LoadCommentChunks} from './LoadComments'
-import * as Icon from './ImportIcons'
+import {ReactComponent as LikeComment} from '../../img/OtherIcons/likeComment.svg'
+import {ReactComponent as DislikeComment} from '../../img/OtherIcons/dislikeComment.svg'
+import {ReactComponent as LikeCommentActive} from '../../img/OtherIcons/likeCommentActive.svg'
+import {ReactComponent as DislikeCommentActive} from '../../img/OtherIcons/dislikeCommentActive.svg'
+
 import noImg from '../../img/OtherIcons/no-image.png'
 import Avatar from '../../img/OtherIcons/avatar.jpeg'
-import {api_key} from '../../apiKey'
 
+import {CommentsSortByDropDown} from '../DropDowns/DropDowns'
 
-const Comment = (props) => {
-	
-	// Setting up the read more button for comment, if it needs
-	const comment = props.comment
+function Comment(props) {
 	
 	const [isShowinMore, setIsShowinMore] = useState(false)
 	
+	// Setting up the read more button for comment, if it needs	
 	var content;
-	if (comment.split('\n').length < 5) {content = comment}
+	if (props.comment.split('\n').length <= 5) {content = props.comment}
 	else if (!isShowinMore) {content = 
 		<>
-			{comment.split('\n').slice(0, 5).join('\n')}
+			{props.comment.split('\n').slice(0, 5).join('\n')}
 			<p className='comment--show-more' onClick={() => {setIsShowinMore(true)}}>Read more</p>
 		</>
 	}
 	else {content = 
 		<>
-			{comment}
+			{props.comment}
 			<p className='comment--show-more' onClick={() => {setIsShowinMore(false)}}>show less</p>
 		</>
 	}
 
 	// Setting up the user like on comment
-	// isUserLiked and isUserDisliked are needed preventing user to increase/decrase like count more than 1
+	// if userLikeCase is true then it means user liked the comment, if it is false then user disliked, if it is null it means user is not like either disliked the comment
+	const [userLikeCase, setUserLikeCase] = useState(null)
 	const [likeCount, setLikeCount] = useState(props.likeCount)
-	const [isUserLiked, setIsUserLiked] = useState(false)
-	const [isUserDisliked, SetIsUserDisliked] = useState(false)
 
-	const handleLike = () => {
-		if (!isUserLiked) {setLikeCount(likeCount + 1); setIsUserLiked(true)}
-		else {setLikeCount(likeCount - 1); setIsUserLiked(false);}
-	}	
-	
-	const handleDislike = () => {
-		if (isUserLiked) {setLikeCount(likeCount - 1); setIsUserLiked(false)}
-		if (!isUserDisliked) {SetIsUserDisliked(true)} else {SetIsUserDisliked(false)}
+	const handleLike = (mod) => {
+		if (mod === 'like') {
+			if (!userLikeCase) {setLikeCount(likeCount + 1); setUserLikeCase(true)}
+			else {setLikeCount(likeCount - 1); setUserLikeCase(null);}	
+			return
+		} 
+		if (userLikeCase === true) {setLikeCount(likeCount - 1); setUserLikeCase(false)}
+		if (userLikeCase === false) {setUserLikeCase(null)} else {setUserLikeCase(false)}
 	}
-	
+
 	return (
 		<div className='video-comments--single-comment flex'>
 			<img className='single-comment--commenter-avatar' src={props.commenterAvatar} alt='commenter-avatar' onError={(e) => { e.target.onerror = null; e.target.src = noImg}}/>
@@ -61,9 +59,9 @@ const Comment = (props) => {
 					{content}
 				</div>	
 				<div className='single-comment--icons flex'>
-					{isUserLiked ? <Icon.LikeCommentActive onClick={handleLike}/> : <Icon.LikeComment onClick={handleLike}/>}
+					{userLikeCase ? <LikeCommentActive onClick={() => {handleLike('like')}}/> : <LikeComment onClick={() => {handleLike('like')}}/>}
 					{likeCount !== 0 && <p style={{marginLeft: '-.5rem'}}>{likeCount}</p>}
-					{isUserDisliked ? <Icon.DislikeCommentActive onClick={handleDislike} /> : <Icon.DislikeComment onClick={handleDislike} />}
+					{userLikeCase === false ? <DislikeCommentActive onClick={() => {handleLike('dislike')}} /> : <DislikeComment onClick={() => {handleLike('dislike')}} />}
 					<p>ANSWER</p>
 				</div>
 			</div>
@@ -71,16 +69,9 @@ const Comment = (props) => {
 	)
 }
 
-function Comments(props) {
-	
-	const videoData = props.videoData
+function CommentsSection(props) {
 	
 	const [commentListType, setCommentListType] = useState('relevance')
-
-	// SortBy Drop Down Setup
-	const [isSortByDropDownShowing, setIsSortByDropDownShowing] = useState(false)
-	const sortByDropDownRef = useRef(null)
-	useOutsideClick(sortByDropDownRef, () => setIsSortByDropDownShowing(false))
 
 	// For comment input focus animation and comment, cancel button displays
 	const [isCommentFocus, setIsCommentFocus] = useState(false)
@@ -93,24 +84,8 @@ function Comments(props) {
 	return(
 	<div className='currently-watched--comments'>
 				<div className='comments--icons flex' style={{gap: '1.8rem', alignItems: 'center'}}>
-					<span className='comments--comment-count'>{videoData && videoData.statistics.commentCount} Comments</span>
-					<div className='comments--icon flex' onClick={() => {
-					setTimeout(() => {setIsSortByDropDownShowing(!isSortByDropDownShowing)}, 0)}}>
-						<Icon.Sortby />
-						{isSortByDropDownShowing && 
-							<div ref={sortByDropDownRef} className='sort-by--drop-down drop-down'>
-								<div style={commentListType === 'relevance' ? {backgroundColor: 'rgba(0, 0, 0, .2)'} : {} } 
-									onClick={() => { if (commentListType !== 'relevance') { setCommentListType('relevance')}}}>
-									<p >Best Reviews</p>
-								</div>
-								<div style={commentListType === 'time' ? {backgroundColor: 'rgba(0, 0, 0, .2)'} : {} }
-										onClick={() => {if (commentListType !== 'time') { setCommentListType('time')}}}>
-									<p>New First</p>
-								</div>
-							</div>
-						}
-						<span>SORT BY</span>
-					</div>
+					<span className='comments--comment-count'>{props.commentCount && props.commentCount} Comments</span>
+					<CommentsSortByDropDown commentListType={commentListType} setCommentListType={setCommentListType}/>
 				</div>
 				<div className='comments--user-comment flex'>
 					<img src={Avatar} alt='user-avatar' />
@@ -146,4 +121,4 @@ function Comments(props) {
 	)
 }
 
-export {Comments, Comment}
+export {CommentsSection, Comment}

@@ -36,6 +36,9 @@ import {ReactComponent as Navigate} from '../../img/NavbarIcons/navigate.svg'
 
 import Avatar from '../../img/OtherIcons/avatar.jpeg'
 
+import {ReactComponent as Logo} from '../../img/HeaderIcons/logo.svg'
+import {ReactComponent as Menu} from '../../img/HeaderIcons/menu.svg'
+
 export {
 	Explore, ExploreActive, Home, HomeActive, Shorts, ShortsActive, Subs, SubsActive,
 	
@@ -48,4 +51,6 @@ export {
 	Navigate,
 	
 	Avatar,
+	
+	Logo, Menu
 }

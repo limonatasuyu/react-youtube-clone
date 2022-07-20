@@ -1,8 +1,8 @@
-import VideoThumbnailChunk, {VideoThumbnail} from './VideoThumbnails'
+import VideoThumbnailChunk, {RelatedVideoThumbnail} from './VideoThumbnails'
 import {useEffect, useState} from 'react'
 import {api_key} from '../../apiKey'
 import axios from 'axios'
-
+import { v4 as uuidv4 } from 'uuid';
 
 // Thumbnails in HomePage needs to be loaded by chunks in order to maintain the 'load onScrollEnd' functionality
 // It basically means saying the computer 'when user gets end of the screen load new thumbnails'   
@@ -65,7 +65,6 @@ export function VideosHome(props) {
 	const categories = props.categories
 	
 	const [displayedVideoCount, setDisplayedVideoCount] = useState(0)
-	console.log(displayedVideoCount)
 	return(
 		<div className={props.isMenuViewChanged ? "videos-home flex videos-home--small-menu" : "videos-home flex"}>
 			<LoadThumbnail chunkCount={chunkCount} categories={categories} currentCategory={props.currentCategory} setDisplayedVideoCount={setDisplayedVideoCount} displayedVideoCount={displayedVideoCount}/>
@@ -76,24 +75,32 @@ export function VideosHome(props) {
 export function RelatedVideos(props) {
 	
 	var videoId = props.videoId 
-	
 	const [relatedVideos, setRelatedVideos] = useState(null)
+
 	useEffect(() => {
-		var url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${videoId}&type=video&videoEmbeddable=true&key=${api_key}`;
+		var url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=30&relatedToVideoId=${videoId}&type=video&videoEmbeddable=true&key=${api_key}`;
+		var StatisticsFetchUrl = (idArray) => {return `https://www.googleapis.com/youtube/v3/videos?part=snippet, statistics, contentDetails&id=${idArray}&key=${api_key}`}
+		// Fetching related Videos
 		axios.get(url)
 			.then((res) => {
-				
-				console.log(res.data.items)
-				
+				// sometimes there can be a video without snippet
+				var thumbnailIdList = []	
+				for (let i = 0; i < res.data.items.length; i++) {if (res.data.items[i].snippet) { thumbnailIdList = [res.data.items[i].id.videoId, ...thumbnailIdList]}}
+				// Fetching again for this time statistics of the related videos
+				axios.get(StatisticsFetchUrl(thumbnailIdList))
+					.then((res) => {
+					setRelatedVideos(res.data.items.map((item) => {return <RelatedVideoThumbnail key={uuidv4()} data={item}/>}))
+					})
+					.catch((err) => {console.log(err)})
+						.then(() => {console.log('related videos properties request made')})
 				})
 			.catch((err) => {console.log(err)})
-				.then(() => {console.log('Fetch for currently watching video made')})
+				.then(() => {console.log('related videos request made')})
 	}, [])
 	
 	return(
-		<>Test</>
+		<div className='related-videos--container grid'>
+			{relatedVideos}
+		</div>
 	)
-
 }
-
-
