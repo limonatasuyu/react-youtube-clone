@@ -1,5 +1,6 @@
 This is a desktop youtube clone written with react.
-You can watch videos that you choose from homepage, you can read comments and comment to videos (For now you can't really add comments to youtube per se. Just you can see the comments you wrote and they will be gone if you close or restart the page)
+You can watch videos that you choose from homepage, you can read comments and comment to videos (For now you can't really add comments to youtube per se. Just you can see the comments you wrote and they will be gone if you close or restart the page). It uses youtube data api v3 for fetchig data about videos and there is a database of video ids i collect random places from internet and arrange them using python pandas library
+
 
 You can see the app from here : https://limonatasuyu.github.io/react-youtube-clone/
 
